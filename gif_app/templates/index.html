@@ -32,6 +32,14 @@
                     <div id="durationLabel" class="mb-1">Duration: <span id="durationValue">300</span> ms</div>
                     <input id="durationInput" type="range" min="50" max="1000" step="50" value="300" class="w-40">
                 </div>
+                <div class="mt-4">
+                    <div id="sizeLabel" class="mb-1">Size: <span id="widthValue">800</span> x <span id="heightValue">800</span> px</div>
+                    <div class="flex space-x-2">
+                        <input id="widthInput" type="number" min="100" max="2000" value="800" class="w-20 p-1 border rounded" />
+                        <span class="self-center">x</span>
+                        <input id="heightInput" type="number" min="100" max="2000" value="800" class="w-20 p-1 border rounded" />
+                    </div>
+                </div>
             </div>
             <div>
                 <h2 class="font-bold mb-1">&#9314; Generate</h2>
@@ -67,11 +75,16 @@
         const clearBtn = document.getElementById('clearBtn');
         const durationInput = document.getElementById('durationInput');
         const durationValue = document.getElementById('durationValue');
+        const widthInput = document.getElementById('widthInput');
+        const heightInput = document.getElementById('heightInput');
+        const widthValue = document.getElementById('widthValue');
+        const heightValue = document.getElementById('heightValue');
         let files = [];
         let isGenerating = false;
         updateGenerateBtnState();
         updateClearBtnState();
         updateDurationDisplay();
+        updateSizeDisplay();
 
         durationInput.addEventListener('input', () => {
             updateDurationDisplay();
@@ -80,8 +93,27 @@
             }
         });
 
+        widthInput.addEventListener('input', () => {
+            updateSizeDisplay();
+            if (gifPreview.src) {
+                generateGif();
+            }
+        });
+
+        heightInput.addEventListener('input', () => {
+            updateSizeDisplay();
+            if (gifPreview.src) {
+                generateGif();
+            }
+        });
+
         function updateDurationDisplay() {
             durationValue.textContent = durationInput.value;
+        }
+
+        function updateSizeDisplay() {
+            widthValue.textContent = widthInput.value;
+            heightValue.textContent = heightInput.value;
         }
 
         function updateGenerateBtnState() {
@@ -159,6 +191,8 @@
             const formData = new FormData();
             files.forEach(f => formData.append('images', f));
             formData.append('duration', durationInput.value);
+            formData.append('width', widthInput.value);
+            formData.append('height', heightInput.value);
             fetch('/generate', { method: 'POST', body: formData })
                 .then(res => res.blob())
                 .then(blob => {
