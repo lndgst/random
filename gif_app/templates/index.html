@@ -19,7 +19,7 @@
             <div>
                 <h2 class="font-bold mb-1">&#9313; Generate GIF</h2>
                 <p class="mb-2">Press this button to create a GIF, it's that simple.</p>
-                <button class="px-4 py-2 bg-black text-white hover:bg-gray-800" type="submit">Generate GIF</button>
+                <button id="generateBtn" class="px-4 py-2 bg-black text-white hover:bg-gray-800 opacity-50 pointer-events-none" type="submit" disabled>Generate GIF</button>
                 <img id="gifPreview" class="mt-4 hidden" alt="Generated GIF">
             </div>
             <div>
@@ -35,7 +35,19 @@
         const gifForm = document.getElementById('gifForm');
         const gifPreview = document.getElementById('gifPreview');
         const downloadBtn = document.getElementById('downloadBtn');
+        const generateBtn = document.getElementById('generateBtn');
         let files = [];
+        updateGenerateBtnState();
+
+        function updateGenerateBtnState() {
+            if (files.length === 0) {
+                generateBtn.disabled = true;
+                generateBtn.classList.add('opacity-50', 'pointer-events-none');
+            } else {
+                generateBtn.disabled = false;
+                generateBtn.classList.remove('opacity-50', 'pointer-events-none');
+            }
+        }
 
         imageInput.addEventListener('change', (e) => {
             for (const file of Array.from(e.target.files)) {
@@ -43,6 +55,7 @@
             }
             e.target.value = '';
             renderPreviews();
+            updateGenerateBtnState();
         });
 
         function renderPreviews() {
@@ -57,14 +70,16 @@
                 btn.type = 'button';
                 btn.textContent = '×';
                 btn.className = 'absolute -top-2 -right-2 bg-black text-white rounded-full h-6 w-6 flex items-center justify-center';
-                btn.addEventListener('click', () => {
-                    files.splice(idx, 1);
-                    renderPreviews();
-                });
+            btn.addEventListener('click', () => {
+                files.splice(idx, 1);
+                renderPreviews();
+                updateGenerateBtnState();
+            });
                 wrapper.appendChild(img);
                 wrapper.appendChild(btn);
                 preview.appendChild(wrapper);
             });
+            updateGenerateBtnState();
         }
 
         gifForm.addEventListener('submit', (e) => {
