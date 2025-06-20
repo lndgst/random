@@ -31,8 +31,7 @@ def generate():
     return send_file(
         gif_bytes,
         mimetype='image/gif',
-        as_attachment=True,
-        download_name='output.gif'
+        as_attachment=False
     )
 
 if __name__ == '__main__':
