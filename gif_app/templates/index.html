@@ -17,20 +17,20 @@
                 <h2 class="font-bold mb-1">&#9312; Upload Images</h2>
                 <p class="mb-2">add a bunch of images from your computer.</p>
                 <input id="imageInput" class="hidden" type="file" name="images" multiple accept="image/*">
-                <label for="imageInput" id="fileLabel" class="px-4 py-2 bg-black text-white hover:bg-gray-800 inline-block cursor-pointer rounded-lg flex items-center space-x-1">
+                <label for="imageInput" id="fileLabel" class="px-4 py-2 bg-black text-white hover:bg-gray-800 inline-block cursor-pointer rounded-lg flex items-center space-x-2 m-2">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-5 w-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m-3-3h6M12 3a9 9 0 100 18 9 9 0 000-18z" />
                     </svg>
-                    <span>Choose Files</span>
+                    <span>Add Images</span>
                 </label>
                 <div id="preview" class="flex flex-wrap mt-2"></div>
             </div>
             <div>
                 <h2 class="font-bold mb-1">&#9313; Generate GIF</h2>
                 <p class="mb-2">Press this button to create a GIF, it's that simple.</p>
-                <button id="generateBtn" class="px-4 py-2 bg-black text-white hover:bg-gray-800 opacity-50 pointer-events-none rounded-lg flex items-center space-x-1" type="submit" disabled>
+                <button id="generateBtn" class="px-4 py-2 bg-black text-white hover:bg-gray-800 opacity-50 pointer-events-none rounded-lg flex items-center space-x-2 m-2" type="submit" disabled>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-5 w-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 10.5h-3v3h3m3-3v6m3-6h3m0 0v6m-3-3h2.25" />
                     </svg>
                     <span>Generate GIF</span>
                 </button>
@@ -39,9 +39,9 @@
             <div>
                 <h2 class="font-bold mb-1">&#9314; Download GIF</h2>
                 <p class="mb-2">And now you can download it on your computer, or copy and past in your slides. Can you believe it?</p>
-                <a id="downloadBtn" class="px-4 py-2 bg-black text-white hover:bg-gray-800 inline-block mt-2 opacity-50 pointer-events-none rounded-lg flex items-center space-x-1" download="output.gif">
+                <a id="downloadBtn" class="px-4 py-2 bg-black text-white hover:bg-gray-800 inline-block m-2 opacity-50 pointer-events-none rounded-lg flex items-center space-x-2" download="output.gif">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-5 w-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v12m0 0l-3-3m3 3l3-3m-8 3v4h10v-4" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-4.5-6L12 3m0 0L7.5 10.5M12 3v13.5" />
                     </svg>
                     <span>Download GIF</span>
                 </a>
