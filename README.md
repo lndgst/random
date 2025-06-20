@@ -7,7 +7,8 @@ distortion.
 
 The HTML template now uses [Tailwind CSS](https://tailwindcss.com/) via CDN to
 provide basic styling and includes icons from
-[Heroicons](https://heroicons.com/).
+[Heroicons](https://heroicons.com/) and
+[Lucide](https://lucide.dev/) loaded via CDN.
 
 ## Running the GIF generator
 
