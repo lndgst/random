@@ -15,9 +15,7 @@
                 <p class="mb-2">add a bunch of images from your computer.</p>
                 <input id="imageInput" class="hidden" type="file" name="images" multiple accept="image/*">
                 <label for="imageInput" id="fileLabel" class="p-2 bg-black text-white hover:bg-gray-800 inline-flex cursor-pointer rounded-lg items-center space-x-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-4 w-4">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m-3-3h6M12 3a9 9 0 100 18 9 9 0 000-18z" />
-                    </svg>
+                    <i data-lucide="plus-circle" class="h-4 w-4"></i>
                     <span>Add Images</span>
                 </label>
                 <div id="preview" class="flex flex-wrap mt-2"></div>
@@ -26,9 +24,7 @@
                 <h2 class="font-bold mb-1">&#9313; Generate GIF</h2>
                 <p class="mb-2">Press this button to create a GIF, it's that simple.</p>
                 <button id="generateBtn" class="p-2 bg-black text-white hover:bg-gray-800 opacity-50 pointer-events-none rounded-lg inline-flex items-center space-x-2" type="submit" disabled>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-4 w-4">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 2l2 6h4l-3.5 3.5V17l-2.5 2.5L9.5 17v-5.5L6 8h4l2-6z" />
-                    </svg>
+                    <i data-lucide="wand-2" class="h-4 w-4"></i>
                     <span>Generate GIF</span>
                 </button>
                 <img id="gifPreview" class="mt-4 hidden" alt="Generated GIF">
@@ -37,9 +33,7 @@
                 <h2 class="font-bold mb-1">&#9314; Download GIF</h2>
                 <p class="mb-2">And now you can download it on your computer, or copy and past in your slides. Can you believe it?</p>
                 <a id="downloadBtn" class="p-2 bg-black text-white hover:bg-gray-800 inline-flex opacity-50 pointer-events-none rounded-lg items-center space-x-2" download="output.gif">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-4 w-4">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v10m0 0l-5-5m5 5l5-5" />
-                    </svg>
+                    <i data-lucide="download" class="h-4 w-4"></i>
                     <span>Download GIF</span>
                 </a>
             </div>
