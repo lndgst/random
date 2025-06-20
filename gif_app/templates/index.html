@@ -5,6 +5,30 @@
     <title>The Giffer</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        #durationInput {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        #durationInput::-webkit-slider-runnable-track,
+        #durationInput::-moz-range-track {
+            height: 1px;
+            background: #000;
+        }
+        #durationInput::-webkit-slider-thumb,
+        #durationInput::-moz-range-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            height: 12px;
+            width: 12px;
+            border-radius: 50%;
+            background: #000;
+            border: none;
+            margin-top: -5.5px;
+        }
+    </style>
 </head>
 <body class="bg-white min-h-screen py-10 flex justify-center font-sans">
     <div class="p-10 w-full max-w-prose text-left mx-4">
@@ -23,8 +47,10 @@
             <div>
                 <h2 class="font-bold mb-1">&#9313; Customize</h2>
                 <p class="mb-2">Adjust these parameters to get what you want. Generate a GIF. Change them again. Generate again. And so on. Till you are very happy</p>
-                <input id="durationInput" type="range" min="50" max="1000" step="50" value="300" class="w-full">
-                <div class="text-sm mt-1">Duration: <span id="durationValue">300</span> ms</div>
+                <div class="flex items-center space-x-2 mt-1">
+                    <input id="durationInput" type="range" min="50" max="1000" step="50" value="300" class="flex-grow">
+                    <div id="durationLabel" class="text-base">Duration: <span id="durationValue">300</span> ms</div>
+                </div>
             </div>
             <div>
                 <h2 class="font-bold mb-1">&#9314; Generate</h2>
