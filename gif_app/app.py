@@ -13,6 +13,7 @@ def index():
 @app.route('/generate', methods=['POST'])
 def generate():
     files = request.files.getlist('images')
+    duration = int(request.form.get('duration', 300))
     frames = []
     for f in files:
         if f.filename:
@@ -30,7 +31,7 @@ def generate():
         format='GIF',
         save_all=True,
         append_images=frames[1:],
-        duration=300,
+        duration=duration,
         loop=0,
         disposal=2
     )

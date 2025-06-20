@@ -21,7 +21,13 @@
                 <div id="preview" class="flex flex-wrap mt-2"></div>
             </div>
             <div>
-                <h2 class="font-bold mb-1">&#9313; Generate GIF</h2>
+                <h2 class="font-bold mb-1">&#9313; GIF Speed</h2>
+                <p class="mb-2">Adjust how long each frame is shown (milliseconds).</p>
+                <input id="durationInput" type="range" min="50" max="1000" step="50" value="300" class="w-full">
+                <div class="text-sm mt-1">Duration: <span id="durationValue">300</span> ms</div>
+            </div>
+            <div>
+                <h2 class="font-bold mb-1">&#9314; Generate GIF</h2>
                 <p class="mb-2">Press this button to create a GIF, it's that simple.</p>
                 <button id="generateBtn" class="p-2 bg-black text-white hover:bg-gray-800 opacity-50 pointer-events-none rounded-lg inline-flex items-center space-x-2" type="submit" disabled>
                     <i data-lucide="wand-2" class="h-4 w-4"></i>
@@ -30,7 +36,7 @@
                 <img id="gifPreview" class="mt-4 hidden" alt="Generated GIF">
             </div>
             <div>
-                <h2 class="font-bold mb-1">&#9314; Download GIF</h2>
+                <h2 class="font-bold mb-1">&#9315; Download GIF</h2>
                 <p class="mb-2">And now you can download it on your computer, or copy and past in your slides. Can you believe it?</p>
                 <a id="downloadBtn" class="p-2 bg-black text-white hover:bg-gray-800 inline-flex opacity-50 pointer-events-none rounded-lg items-center space-x-2" download="output.gif">
                     <i data-lucide="download" class="h-4 w-4"></i>
@@ -46,8 +52,23 @@
         const gifPreview = document.getElementById('gifPreview');
         const downloadBtn = document.getElementById('downloadBtn');
         const generateBtn = document.getElementById('generateBtn');
+        const durationInput = document.getElementById('durationInput');
+        const durationValue = document.getElementById('durationValue');
         let files = [];
+        let isGenerating = false;
         updateGenerateBtnState();
+        updateDurationDisplay();
+
+        durationInput.addEventListener('input', () => {
+            updateDurationDisplay();
+            if (gifPreview.src) {
+                generateGif();
+            }
+        });
+
+        function updateDurationDisplay() {
+            durationValue.textContent = durationInput.value;
+        }
 
         function updateGenerateBtnState() {
             if (files.length === 0) {
@@ -95,8 +116,15 @@
 
         gifForm.addEventListener('submit', (e) => {
             e.preventDefault();
+            generateGif();
+        });
+
+        function generateGif() {
+            if (isGenerating || files.length === 0) return;
+            isGenerating = true;
             const formData = new FormData();
             files.forEach(f => formData.append('images', f));
+            formData.append('duration', durationInput.value);
             fetch('/generate', { method: 'POST', body: formData })
                 .then(res => res.blob())
                 .then(blob => {
@@ -105,8 +133,11 @@
                     gifPreview.classList.remove('hidden');
                     downloadBtn.href = url;
                     downloadBtn.classList.remove('opacity-50', 'pointer-events-none');
+                })
+                .finally(() => {
+                    isGenerating = false;
                 });
-        });
+        }
         lucide.createIcons();
     </script>
 </body>
