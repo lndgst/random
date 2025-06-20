@@ -33,6 +33,10 @@
                     <i data-lucide="wand-2" class="h-4 w-4"></i>
                     <span>Generate</span>
                 </button>
+                <button id="clearBtn" class="p-2 bg-black text-white hover:bg-gray-800 opacity-50 pointer-events-none rounded-lg inline-flex items-center space-x-2 ml-2" type="button" disabled>
+                    <i data-lucide="trash-2" class="h-4 w-4"></i>
+                    <span>Clear</span>
+                </button>
                 <img id="gifPreview" class="mt-4 hidden" alt="Generated GIF">
             </div>
             <div>
@@ -52,11 +56,13 @@
         const gifPreview = document.getElementById('gifPreview');
         const downloadBtn = document.getElementById('downloadBtn');
         const generateBtn = document.getElementById('generateBtn');
+        const clearBtn = document.getElementById('clearBtn');
         const durationInput = document.getElementById('durationInput');
         const durationValue = document.getElementById('durationValue');
         let files = [];
         let isGenerating = false;
         updateGenerateBtnState();
+        updateClearBtnState();
         updateDurationDisplay();
 
         durationInput.addEventListener('input', () => {
@@ -77,6 +83,16 @@
             } else {
                 generateBtn.disabled = false;
                 generateBtn.classList.remove('opacity-50', 'pointer-events-none');
+            }
+        }
+
+        function updateClearBtnState() {
+            if (gifPreview.src) {
+                clearBtn.disabled = false;
+                clearBtn.classList.remove('opacity-50', 'pointer-events-none');
+            } else {
+                clearBtn.disabled = true;
+                clearBtn.classList.add('opacity-50', 'pointer-events-none');
             }
         }
 
@@ -119,6 +135,14 @@
             generateGif();
         });
 
+        clearBtn.addEventListener('click', () => {
+            gifPreview.src = '';
+            gifPreview.classList.add('hidden');
+            downloadBtn.removeAttribute('href');
+            downloadBtn.classList.add('opacity-50', 'pointer-events-none');
+            updateClearBtnState();
+        });
+
         function generateGif() {
             if (isGenerating || files.length === 0) return;
             isGenerating = true;
@@ -133,6 +157,7 @@
                     gifPreview.classList.remove('hidden');
                     downloadBtn.href = url;
                     downloadBtn.classList.remove('opacity-50', 'pointer-events-none');
+                    updateClearBtnState();
                 })
                 .finally(() => {
                     isGenerating = false;
