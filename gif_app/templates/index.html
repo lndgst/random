@@ -5,21 +5,32 @@
     <title>GIF Generator</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100 min-h-screen flex items-center justify-center font-sans">
-    <div class="bg-white p-6 rounded shadow-md w-full max-w-md">
-        <h1 class="text-2xl font-bold mb-4 text-center">Upload Images to Create GIF</h1>
+<body class="bg-gray-100 min-h-screen flex items-start font-sans">
+    <div class="bg-white p-6 rounded shadow-md w-full max-w-md text-left mx-4">
+        <h1 class="text-2xl font-bold mb-4">GIF Generator</h1>
         <form id="gifForm" action="/generate" method="post" enctype="multipart/form-data" class="space-y-4">
-            <input id="imageInput" class="block w-full text-gray-700" type="file" name="images" multiple accept="image/*">
-            <div id="preview" class="flex flex-wrap"></div>
-            <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 w-full" type="submit">Generate GIF</button>
+            <div>
+                <h2 class="font-bold mb-1">&#9312; Upload Images</h2>
+                <input id="imageInput" class="block w-full text-gray-700" type="file" name="images" multiple accept="image/*">
+                <div id="preview" class="flex flex-wrap mt-2"></div>
+            </div>
+            <div>
+                <h2 class="font-bold mb-1">&#9313; Generate GIF</h2>
+                <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600" type="submit">Generate GIF</button>
+                <img id="gifPreview" class="mt-4 hidden" alt="Generated GIF">
+            </div>
+            <div>
+                <h2 class="font-bold mb-1">&#9314; Download GIF</h2>
+                <a id="downloadBtn" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 inline-block mt-2 hidden" download="output.gif">Download GIF</a>
+            </div>
         </form>
-        <img id="gifPreview" class="mt-4 mx-auto hidden" alt="Generated GIF">
     </div>
     <script>
         const imageInput = document.getElementById('imageInput');
         const preview = document.getElementById('preview');
         const gifForm = document.getElementById('gifForm');
         const gifPreview = document.getElementById('gifPreview');
+        const downloadBtn = document.getElementById('downloadBtn');
         let files = [];
 
         imageInput.addEventListener('change', (e) => {
@@ -59,8 +70,11 @@
             fetch('/generate', { method: 'POST', body: formData })
                 .then(res => res.blob())
                 .then(blob => {
-                    gifPreview.src = URL.createObjectURL(blob);
+                    const url = URL.createObjectURL(blob);
+                    gifPreview.src = url;
                     gifPreview.classList.remove('hidden');
+                    downloadBtn.href = url;
+                    downloadBtn.classList.remove('hidden');
                 });
         });
     </script>
