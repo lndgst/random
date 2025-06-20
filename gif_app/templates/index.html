@@ -44,8 +44,12 @@
                 <p class="mb-2">And now you can download it on your computer, or copy and past in your slides. Can you believe it?</p>
                 <a id="downloadBtn" class="p-2 bg-black text-white hover:bg-gray-800 inline-flex opacity-50 pointer-events-none rounded-lg items-center space-x-2" download="output.gif">
                     <i data-lucide="download" class="h-4 w-4"></i>
-                    <span>Bring it home</span>
+                    <span>download</span>
                 </a>
+                <button id="copyBtn" type="button" class="p-2 bg-black text-white hover:bg-gray-800 inline-flex opacity-50 pointer-events-none rounded-lg items-center space-x-2 ml-2">
+                    <i data-lucide="copy" class="h-4 w-4"></i>
+                    <span>copy</span>
+                </button>
             </div>
         </form>
     </div>
@@ -55,6 +59,7 @@
         const gifForm = document.getElementById('gifForm');
         const gifPreview = document.getElementById('gifPreview');
         const downloadBtn = document.getElementById('downloadBtn');
+        const copyBtn = document.getElementById('copyBtn');
         const generateBtn = document.getElementById('generateBtn');
         const clearBtn = document.getElementById('clearBtn');
         const durationInput = document.getElementById('durationInput');
@@ -140,7 +145,18 @@
             gifPreview.classList.add('hidden');
             downloadBtn.removeAttribute('href');
             downloadBtn.classList.add('opacity-50', 'pointer-events-none');
+            copyBtn.dataset.url = '';
+            copyBtn.classList.add('opacity-50', 'pointer-events-none');
             updateClearBtnState();
+        });
+
+        copyBtn.addEventListener('click', () => {
+            if (!copyBtn.dataset.url) return;
+            fetch(copyBtn.dataset.url)
+                .then(res => res.blob())
+                .then(blob => navigator.clipboard.write([
+                    new ClipboardItem({ 'image/gif': blob })
+                ]));
         });
 
         function generateGif() {
@@ -157,6 +173,8 @@
                     gifPreview.classList.remove('hidden');
                     downloadBtn.href = url;
                     downloadBtn.classList.remove('opacity-50', 'pointer-events-none');
+                    copyBtn.dataset.url = url;
+                    copyBtn.classList.remove('opacity-50', 'pointer-events-none');
                     updateClearBtnState();
                 })
                 .finally(() => {
