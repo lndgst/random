@@ -12,7 +12,8 @@
             <div>
                 <h2 class="font-bold mb-1">&#9312; Upload Images</h2>
                 <p class="mb-2">add a bunch of images from your computer.</p>
-                <input id="imageInput" class="block w-full text-gray-700" type="file" name="images" multiple accept="image/*">
+                <input id="imageInput" class="hidden" type="file" name="images" multiple accept="image/*">
+                <label for="imageInput" id="fileLabel" class="px-4 py-2 bg-black text-white hover:bg-gray-800 inline-block cursor-pointer">Choose Files</label>
                 <div id="preview" class="flex flex-wrap mt-2"></div>
             </div>
             <div>
@@ -24,7 +25,7 @@
             <div>
                 <h2 class="font-bold mb-1">&#9314; Download GIF</h2>
                 <p class="mb-2">And now you can download it on your computer, or copy and past in your slides. Can you believe it?</p>
-                <a id="downloadBtn" class="px-4 py-2 bg-black text-white hover:bg-gray-800 inline-block mt-2 hidden" download="output.gif">Download GIF</a>
+                <a id="downloadBtn" class="px-4 py-2 bg-black text-white hover:bg-gray-800 inline-block mt-2 opacity-50 pointer-events-none" download="output.gif">Download GIF</a>
             </div>
         </form>
     </div>
@@ -77,7 +78,7 @@
                     gifPreview.src = url;
                     gifPreview.classList.remove('hidden');
                     downloadBtn.href = url;
-                    downloadBtn.classList.remove('hidden');
+                    downloadBtn.classList.remove('opacity-50', 'pointer-events-none');
                 });
         });
     </script>
