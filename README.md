@@ -6,7 +6,8 @@ always 800&times;800 pixels, with each frame resized to fit without
 distortion.
 
 The HTML template now uses [Tailwind CSS](https://tailwindcss.com/) via CDN to
-provide basic styling.
+provide basic styling and includes icons from
+[Heroicons](https://heroicons.com/).
 
 ## Running the GIF generator
 
