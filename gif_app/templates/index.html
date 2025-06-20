@@ -2,26 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>GIF Generator</title>
+    <title>The Giffer</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-200 min-h-screen py-10 flex justify-center font-serif">
-    <div class="bg-white p-10 border border-gray-300 w-full max-w-prose text-left mx-4">
-        <h1 class="text-2xl font-bold mb-4">GIF Generator</h1>
+<body class="bg-white min-h-screen py-10 flex justify-center font-sans">
+    <div class="p-10 w-full max-w-prose text-left mx-4">
+        <h1 class="text-2xl font-bold mb-4">The Giffer</h1>
         <form id="gifForm" action="/generate" method="post" enctype="multipart/form-data" class="space-y-4">
             <div>
                 <h2 class="font-bold mb-1">&#9312; Upload Images</h2>
+                <p class="mb-2">add a bunch of images from your computer.</p>
                 <input id="imageInput" class="block w-full text-gray-700" type="file" name="images" multiple accept="image/*">
                 <div id="preview" class="flex flex-wrap mt-2"></div>
             </div>
             <div>
                 <h2 class="font-bold mb-1">&#9313; Generate GIF</h2>
-                <button class="px-4 py-2 bg-blue-500 text-white hover:bg-blue-600" type="submit">Generate GIF</button>
+                <p class="mb-2">Press this button to create a GIF, it's that simple.</p>
+                <button class="px-4 py-2 bg-black text-white hover:bg-gray-800" type="submit">Generate GIF</button>
                 <img id="gifPreview" class="mt-4 hidden" alt="Generated GIF">
             </div>
             <div>
                 <h2 class="font-bold mb-1">&#9314; Download GIF</h2>
-                <a id="downloadBtn" class="px-4 py-2 bg-green-500 text-white hover:bg-green-600 inline-block mt-2 hidden" download="output.gif">Download GIF</a>
+                <p class="mb-2">And now you can download it on your computer, or copy and past in your slides. Can you believe it?</p>
+                <a id="downloadBtn" class="px-4 py-2 bg-black text-white hover:bg-gray-800 inline-block mt-2 hidden" download="output.gif">Download GIF</a>
             </div>
         </form>
     </div>
@@ -52,7 +55,7 @@
                 const btn = document.createElement('button');
                 btn.type = 'button';
                 btn.textContent = '×';
-                btn.className = 'absolute -top-2 -right-2 bg-red-500 text-white rounded-full h-6 w-6 flex items-center justify-center';
+                btn.className = 'absolute -top-2 -right-2 bg-black text-white rounded-full h-6 w-6 flex items-center justify-center';
                 btn.addEventListener('click', () => {
                     files.splice(idx, 1);
                     renderPreviews();
