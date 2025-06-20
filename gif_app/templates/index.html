@@ -12,7 +12,7 @@
         <form id="gifForm" action="/generate" method="post" enctype="multipart/form-data" class="space-y-4">
             <div>
                 <h2 class="font-bold mb-1">&#9312; Upload Images</h2>
-                <p class="mb-2">Add a bunch of images from your computer. You can mix different formats. It works with jpg, png, and probably other formats but I haven't tested it yet</p>
+                <p class="mb-2 text-gray-700">Add a bunch of images from your computer. You can mix different formats. It works with jpg, png, and probably other formats but I haven't tested it yet</p>
                 <input id="imageInput" class="hidden" type="file" name="images" multiple accept="image/*">
                 <label for="imageInput" id="fileLabel" class="p-2 bg-black text-white hover:bg-gray-800 inline-flex cursor-pointer rounded-lg items-center space-x-2">
                     <i data-lucide="plus-circle" class="h-4 w-4"></i>
@@ -22,13 +22,13 @@
             </div>
             <div>
                 <h2 class="font-bold mb-1">&#9313; Customize</h2>
-                <p class="mb-2">Adjust these parameters to get what you want. Generate a GIF. Change them again. Generate again. And so on. Till you are very happy</p>
+                <p class="mb-2 text-gray-700">Adjust these parameters to get what you want. Generate a GIF. Change them again. Generate again. And so on. Till you are very happy</p>
                 <input id="durationInput" type="range" min="50" max="1000" step="50" value="300" class="w-full">
                 <div class="text-sm mt-1">Duration: <span id="durationValue">300</span> ms</div>
             </div>
             <div>
                 <h2 class="font-bold mb-1">&#9314; Generate</h2>
-                <p class="mb-2">Press this button to create a GIF, it's that simple.</p>
+                <p class="mb-2 text-gray-700">Press this button to create a GIF, it's that simple.</p>
                 <button id="generateBtn" class="p-2 bg-black text-white hover:bg-gray-800 opacity-50 pointer-events-none rounded-lg inline-flex items-center space-x-2" type="submit" disabled>
                     <i data-lucide="wand-2" class="h-4 w-4"></i>
                     <span>Generate</span>
@@ -41,7 +41,7 @@
             </div>
             <div>
                 <h2 class="font-bold mb-1">&#9315; Bring it home</h2>
-                <p class="mb-2">And now you can download it on your computer, or copy and past in your slides. Can you believe it?</p>
+                <p class="mb-2 text-gray-700">And now you can download it on your computer, or copy and past in your slides. Can you believe it?</p>
                 <a id="downloadBtn" class="p-2 bg-black text-white hover:bg-gray-800 inline-flex opacity-50 pointer-events-none rounded-lg items-center space-x-2" download="output.gif">
                     <i data-lucide="download" class="h-4 w-4"></i>
                     <span>Bring it home</span>
