@@ -3,6 +3,9 @@
 This repository contains experiments. Included is a small Flask application
 that can generate a GIF from uploaded images.
 
+The HTML template now uses [Tailwind CSS](https://tailwindcss.com/) via CDN to
+provide basic styling.
+
 ## Running the GIF generator
 
 1. Install dependencies:

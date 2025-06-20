@@ -3,12 +3,15 @@
 <head>
     <meta charset="utf-8">
     <title>GIF Generator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Upload Images to Create GIF</h1>
-    <form action="/generate" method="post" enctype="multipart/form-data">
-        <input type="file" name="images" multiple accept="image/*">
-        <button type="submit">Generate GIF</button>
-    </form>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white p-6 rounded shadow-md w-full max-w-md">
+        <h1 class="text-2xl font-bold mb-4 text-center">Upload Images to Create GIF</h1>
+        <form action="/generate" method="post" enctype="multipart/form-data" class="space-y-4">
+            <input class="block w-full text-gray-700" type="file" name="images" multiple accept="image/*">
+            <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 w-full" type="submit">Generate GIF</button>
+        </form>
+    </div>
 </body>
 </html>
