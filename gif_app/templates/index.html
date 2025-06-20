@@ -67,6 +67,7 @@
         const gifPreview = document.getElementById('gifPreview');
         const downloadBtn = document.getElementById('downloadBtn');
         const copyBtn = document.getElementById('copyBtn');
+        let currentBlob = null;
         const generateBtn = document.getElementById('generateBtn');
         const clearBtn = document.getElementById('clearBtn');
         const durationInput = document.getElementById('durationInput');
@@ -152,18 +153,16 @@
             gifPreview.classList.add('hidden');
             downloadBtn.removeAttribute('href');
             downloadBtn.classList.add('opacity-50', 'pointer-events-none');
-            copyBtn.dataset.url = '';
             copyBtn.classList.add('opacity-50', 'pointer-events-none');
+            currentBlob = null;
             updateClearBtnState();
         });
 
         copyBtn.addEventListener('click', () => {
-            if (!copyBtn.dataset.url) return;
-            fetch(copyBtn.dataset.url)
-                .then(res => res.blob())
-                .then(blob => navigator.clipboard.write([
-                    new ClipboardItem({ 'image/gif': blob })
-                ]));
+            if (!currentBlob || !navigator.clipboard || !window.ClipboardItem) return;
+            navigator.clipboard.write([
+                new ClipboardItem({ 'image/gif': currentBlob })
+            ]);
         });
 
         function generateGif() {
@@ -175,12 +174,12 @@
             fetch('/generate', { method: 'POST', body: formData })
                 .then(res => res.blob())
                 .then(blob => {
+                    currentBlob = blob;
                     const url = URL.createObjectURL(blob);
                     gifPreview.src = url;
                     gifPreview.classList.remove('hidden');
                     downloadBtn.href = url;
                     downloadBtn.classList.remove('opacity-50', 'pointer-events-none');
-                    copyBtn.dataset.url = url;
                     copyBtn.classList.remove('opacity-50', 'pointer-events-none');
                     updateClearBtnState();
                 })
