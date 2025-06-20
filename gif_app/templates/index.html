@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>The Giffer</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest"></script>
 </head>
 <body class="bg-white min-h-screen py-10 flex justify-center font-sans">
     <div class="p-10 w-full max-w-prose text-left mx-4">
@@ -83,7 +84,7 @@
                 img.className = 'h-24 w-24 object-cover rounded';
                 const btn = document.createElement('button');
                 btn.type = 'button';
-                btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-4 w-4"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>';
+                btn.innerHTML = '<i data-lucide="x" class="h-4 w-4"></i>';
                 btn.className = 'absolute -top-2 -right-2 bg-black text-white rounded-full h-6 w-6 flex items-center justify-center';
             btn.addEventListener('click', () => {
                 files.splice(idx, 1);
@@ -94,6 +95,7 @@
                 wrapper.appendChild(btn);
                 preview.appendChild(wrapper);
             });
+            lucide.createIcons();
             updateGenerateBtnState();
         }
 
@@ -111,6 +113,7 @@
                     downloadBtn.classList.remove('opacity-50', 'pointer-events-none');
                 });
         });
+        lucide.createIcons();
     </script>
 </body>
 </html>
