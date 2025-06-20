@@ -5,13 +5,64 @@
     <title>GIF Generator</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+<body class="bg-gray-100 min-h-screen flex items-center justify-center font-sans">
     <div class="bg-white p-6 rounded shadow-md w-full max-w-md">
         <h1 class="text-2xl font-bold mb-4 text-center">Upload Images to Create GIF</h1>
-        <form action="/generate" method="post" enctype="multipart/form-data" class="space-y-4">
-            <input class="block w-full text-gray-700" type="file" name="images" multiple accept="image/*">
+        <form id="gifForm" action="/generate" method="post" enctype="multipart/form-data" class="space-y-4">
+            <input id="imageInput" class="block w-full text-gray-700" type="file" name="images" multiple accept="image/*">
+            <div id="preview" class="flex flex-wrap"></div>
             <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 w-full" type="submit">Generate GIF</button>
         </form>
+        <img id="gifPreview" class="mt-4 mx-auto hidden" alt="Generated GIF">
     </div>
+    <script>
+        const imageInput = document.getElementById('imageInput');
+        const preview = document.getElementById('preview');
+        const gifForm = document.getElementById('gifForm');
+        const gifPreview = document.getElementById('gifPreview');
+        let files = [];
+
+        imageInput.addEventListener('change', (e) => {
+            for (const file of Array.from(e.target.files)) {
+                files.push(file);
+            }
+            e.target.value = '';
+            renderPreviews();
+        });
+
+        function renderPreviews() {
+            preview.innerHTML = '';
+            files.forEach((file, idx) => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'relative m-1';
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(file);
+                img.className = 'h-24 w-24 object-cover rounded';
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.textContent = '×';
+                btn.className = 'absolute -top-2 -right-2 bg-red-500 text-white rounded-full h-6 w-6 flex items-center justify-center';
+                btn.addEventListener('click', () => {
+                    files.splice(idx, 1);
+                    renderPreviews();
+                });
+                wrapper.appendChild(img);
+                wrapper.appendChild(btn);
+                preview.appendChild(wrapper);
+            });
+        }
+
+        gifForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData();
+            files.forEach(f => formData.append('images', f));
+            fetch('/generate', { method: 'POST', body: formData })
+                .then(res => res.blob())
+                .then(blob => {
+                    gifPreview.src = URL.createObjectURL(blob);
+                    gifPreview.classList.remove('hidden');
+                });
+        });
+    </script>
 </body>
 </html>
