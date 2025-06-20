@@ -2,6 +2,8 @@ from io import BytesIO
 from flask import Flask, render_template, request, send_file
 from PIL import Image
 
+TARGET_SIZE = (800, 800)
+
 app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
@@ -11,21 +13,26 @@ def index():
 @app.route('/generate', methods=['POST'])
 def generate():
     files = request.files.getlist('images')
-    images = []
+    frames = []
     for f in files:
         if f.filename:
-            img = Image.open(f.stream)
-            images.append(img.convert('RGBA'))
-    if not images:
+            img = Image.open(f.stream).convert('RGBA')
+            img.thumbnail(TARGET_SIZE, Image.LANCZOS)
+            frame = Image.new('RGBA', TARGET_SIZE, (255, 255, 255, 0))
+            frame.paste(img, ((TARGET_SIZE[0] - img.width) // 2,
+                              (TARGET_SIZE[1] - img.height) // 2))
+            frames.append(frame)
+    if not frames:
         return 'No images uploaded', 400
     gif_bytes = BytesIO()
-    images[0].save(
+    frames[0].save(
         gif_bytes,
         format='GIF',
         save_all=True,
-        append_images=images[1:],
+        append_images=frames[1:],
         duration=300,
-        loop=0
+        loop=0,
+        disposal=2
     )
     gif_bytes.seek(0)
     return send_file(

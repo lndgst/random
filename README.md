@@ -1,7 +1,9 @@
 # random
 
 This repository contains experiments. Included is a small Flask application
-that can generate a GIF from uploaded images.
+that can generate a GIF from uploaded images. The resulting animation is
+always 800&times;800 pixels, with each frame resized to fit without
+distortion.
 
 The HTML template now uses [Tailwind CSS](https://tailwindcss.com/) via CDN to
 provide basic styling.
