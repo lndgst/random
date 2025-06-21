@@ -2,7 +2,7 @@ from io import BytesIO
 from flask import Flask, render_template, request, send_file
 from PIL import Image
 
-TARGET_SIZE = (800, 800)
+DEFAULT_DIMENSION = 800
 DEFAULT_MAX_MB = 4
 
 app = Flask(__name__)
@@ -15,14 +15,16 @@ def index():
 def generate():
     files = request.files.getlist('images')
     duration = int(request.form.get('duration', 300))
+    dimension = int(request.form.get('dimension', DEFAULT_DIMENSION))
     max_mb = int(request.form.get('max_size', DEFAULT_MAX_MB))
     max_bytes = max_mb * 1024 * 1024
+    target_size = (dimension, dimension)
 
     images = []
     for f in files:
         if f.filename:
             img = Image.open(f.stream).convert('RGBA')
-            img.thumbnail(TARGET_SIZE, Image.LANCZOS)
+            img.thumbnail(target_size, Image.LANCZOS)
             images.append(img)
 
     if not images:
@@ -31,7 +33,7 @@ def generate():
     scale = 1.0
     gif_bytes = BytesIO()
     for _ in range(5):
-        size = (int(TARGET_SIZE[0] * scale), int(TARGET_SIZE[1] * scale))
+        size = (int(target_size[0] * scale), int(target_size[1] * scale))
         frames = []
         for img in images:
             frame = Image.new('RGBA', size, (255, 255, 255, 0))
