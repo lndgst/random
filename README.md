@@ -10,6 +10,7 @@ The HTML template now uses [Tailwind CSS](https://tailwindcss.com/) via CDN to
 provide basic styling and includes icons from
 [Heroicons](https://heroicons.com/) and
 [Lucide](https://lucide.dev/) loaded via CDN.
+The title font comes from [Google Fonts](https://fonts.google.com/) and uses the **DynaPuff** typeface.
 
 ## Running the GIF generator
 
