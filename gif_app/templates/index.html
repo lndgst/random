@@ -151,10 +151,28 @@
             preview.innerHTML = '';
             files.forEach((file, idx) => {
                 const wrapper = document.createElement('div');
-                wrapper.className = 'relative m-1';
+                wrapper.className = 'relative m-1 cursor-move';
+                wrapper.draggable = true;
+                wrapper.dataset.index = idx;
                 const img = document.createElement('img');
                 img.src = URL.createObjectURL(file);
                 img.className = 'h-24 w-24 object-cover rounded';
+                wrapper.addEventListener('dragstart', (ev) => {
+                    ev.dataTransfer.setData('text/plain', idx.toString());
+                });
+                wrapper.addEventListener('dragover', (ev) => {
+                    ev.preventDefault();
+                });
+                wrapper.addEventListener('drop', (ev) => {
+                    ev.preventDefault();
+                    const from = parseInt(ev.dataTransfer.getData('text/plain'));
+                    const to = idx;
+                    if (from === to || Number.isNaN(from)) return;
+                    const [moved] = files.splice(from, 1);
+                    files.splice(to, 0, moved);
+                    renderPreviews();
+                });
+
                 const btn = document.createElement('button');
                 btn.type = 'button';
                 btn.innerHTML = '<i data-lucide="x" class="h-4 w-4"></i>';
