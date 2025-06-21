@@ -33,6 +33,10 @@
                     <input id="durationInput" type="range" min="50" max="1000" step="50" value="300" class="w-40">
                 </div>
                 <div class="mt-1">
+                    <div id="dimensionLabel" class="mb-1">Dimension: <span id="dimensionValue">800</span> px</div>
+                    <input id="dimensionInput" type="range" min="200" max="1000" step="50" value="800" class="w-40">
+                </div>
+                <div class="mt-1">
                     <div id="sizeLabel" class="mb-1">Max size: <span id="sizeValue">4</span> MB</div>
                     <input id="sizeInput" type="range" min="1" max="10" step="1" value="4" class="w-40">
                 </div>
@@ -71,6 +75,8 @@
         const clearBtn = document.getElementById('clearBtn');
         const durationInput = document.getElementById('durationInput');
         const durationValue = document.getElementById('durationValue');
+        const dimensionInput = document.getElementById('dimensionInput');
+        const dimensionValue = document.getElementById('dimensionValue');
         const sizeInput = document.getElementById('sizeInput');
         const sizeValue = document.getElementById('sizeValue');
         let files = [];
@@ -78,10 +84,17 @@
         updateGenerateBtnState();
         updateClearBtnState();
         updateDurationDisplay();
+        updateDimensionDisplay();
         updateSizeDisplay();
 
         durationInput.addEventListener('input', () => {
             updateDurationDisplay();
+            if (gifPreview.src) {
+                generateGif();
+            }
+        });
+        dimensionInput.addEventListener('input', () => {
+            updateDimensionDisplay();
             if (gifPreview.src) {
                 generateGif();
             }
@@ -95,6 +108,10 @@
 
         function updateDurationDisplay() {
             durationValue.textContent = durationInput.value;
+        }
+
+        function updateDimensionDisplay() {
+            dimensionValue.textContent = dimensionInput.value;
         }
 
         function updateSizeDisplay() {
@@ -176,6 +193,7 @@
             const formData = new FormData();
             files.forEach(f => formData.append('images', f));
             formData.append('duration', durationInput.value);
+            formData.append('dimension', dimensionInput.value);
             formData.append('max_size', sizeInput.value);
             fetch('/generate', { method: 'POST', body: formData })
                 .then(res => res.blob())
