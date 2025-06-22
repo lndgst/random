@@ -26,3 +26,11 @@ The title font comes from [Google Fonts](https://fonts.google.com/) and uses the
 
 3. Open your browser at [http://localhost:5000](http://localhost:5000)
 and upload images to receive the generated GIF.
+
+## Deploying to Vercel
+
+1. Ensure the [Vercel CLI](https://vercel.com/cli) is installed.
+2. From the repository root run:
+   ```bash
+   vercel --prod
+   ```
