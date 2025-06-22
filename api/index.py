@@ -1,1 +1,1 @@
-from gif_app.app import app
+from gif_app import app

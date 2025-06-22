@@ -29,8 +29,12 @@ and upload images to receive the generated GIF.
 
 ## Deploying to Vercel
 
+The repository includes a `vercel.json` file that maps all requests to
+`api/index.py` and a `runtime.txt` declaring Python 3.11. The serverless
+function simply imports the Flask `app` from `gif_app`.
+
 1. Ensure the [Vercel CLI](https://vercel.com/cli) is installed.
-2. From the repository root run:
+2. Deploy with:
    ```bash
    vercel --prod
    ```
