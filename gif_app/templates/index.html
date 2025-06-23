@@ -17,7 +17,7 @@
 <body class="bg-white min-h-screen py-10 flex justify-center font-sans">
     <div class="p-10 w-full max-w-prose text-left mx-4">
         <h1 class="text-4xl font-bold mb-4" style="font-family: 'DynaPuff', cursive;">The Giffer</h1>
-        <form id="gifForm" action="/generate" method="post" enctype="multipart/form-data" class="space-y-4">
+        <form id="gifForm" action="{{ url_for('generate') }}" method="post" enctype="multipart/form-data" class="space-y-4">
             <div>
                 <h2 class="font-bold mb-1">&#9312; Upload Images</h2>
                 <p class="mb-2 text-gray-500">Add a bunch of images from your computer. You can mix different formats. It works with jpg, png, and probably other formats but I haven't tested it yet. Drag and drop to reorder.</p>
@@ -216,7 +216,7 @@
             formData.append('duration', durationInput.value);
             formData.append('dimension', dimensionInput.value);
             formData.append('max_size', sizeInput.value);
-            fetch('/generate', { method: 'POST', body: formData })
+                fetch('{{ url_for('generate') }}', { method: 'POST', body: formData })
                 .then(res => res.blob())
                 .then(blob => {
                     currentBlob = blob;
