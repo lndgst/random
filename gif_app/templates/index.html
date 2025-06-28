@@ -27,6 +27,7 @@
                     <span>Add images</span>
                 </label>
                 <div id="preview" class="flex flex-wrap mt-2"></div>
+                <div id="uploadCounter" class="mt-1 text-gray-500"></div>
             </div>
             <div>
                 <h2 class="font-bold mb-1">&#9313; Customize</h2>
@@ -82,6 +83,8 @@
         const dimensionValue = document.getElementById('dimensionValue');
         const sizeInput = document.getElementById('sizeInput');
         const sizeValue = document.getElementById('sizeValue');
+        const uploadCounter = document.getElementById('uploadCounter');
+        const MAX_UPLOAD_MB = 4;
         let files = [];
         let isGenerating = false;
         updateGenerateBtnState();
@@ -89,6 +92,7 @@
         updateDurationDisplay();
         updateDimensionDisplay();
         updateSizeDisplay();
+        updateUploadCounter();
 
         durationInput.addEventListener('input', () => {
             updateDurationDisplay();
@@ -121,6 +125,18 @@
             sizeValue.textContent = sizeInput.value;
         }
 
+        function updateUploadCounter() {
+            const totalBytes = files.reduce((acc, f) => acc + f.size, 0);
+            const totalMB = (totalBytes / (1024 * 1024));
+            if (totalBytes >= MAX_UPLOAD_MB * 1024 * 1024) {
+                uploadCounter.textContent = `Limit of ${MAX_UPLOAD_MB} MB reached`;
+                uploadCounter.classList.add('text-red-600');
+            } else {
+                uploadCounter.textContent = `${totalMB.toFixed(2)} / ${MAX_UPLOAD_MB} MB`;
+                uploadCounter.classList.remove('text-red-600');
+            }
+        }
+
         function updateGenerateBtnState() {
             if (files.length === 0) {
                 generateBtn.disabled = true;
@@ -148,6 +164,7 @@
             e.target.value = '';
             renderPreviews();
             updateGenerateBtnState();
+            updateUploadCounter();
         });
 
         function renderPreviews() {
@@ -180,17 +197,19 @@
                 btn.type = 'button';
                 btn.innerHTML = '<i data-lucide="x" class="h-4 w-4"></i>';
                 btn.className = 'absolute -top-2 -right-2 bg-black text-white rounded-full h-6 w-6 flex items-center justify-center';
-            btn.addEventListener('click', () => {
-                files.splice(idx, 1);
-                renderPreviews();
-                updateGenerateBtnState();
-            });
+                btn.addEventListener('click', () => {
+                    files.splice(idx, 1);
+                    renderPreviews();
+                    updateGenerateBtnState();
+                    updateUploadCounter();
+                });
                 wrapper.appendChild(img);
                 wrapper.appendChild(btn);
                 preview.appendChild(wrapper);
             });
             lucide.createIcons();
             updateGenerateBtnState();
+            updateUploadCounter();
         }
 
         gifForm.addEventListener('submit', (e) => {
