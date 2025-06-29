@@ -1,11 +1,13 @@
 from io import BytesIO
+from pathlib import Path
 from flask import Flask, render_template, request, send_file
 from PIL import Image
 
 DEFAULT_DIMENSION = 800
 DEFAULT_MAX_MB = 4
 
-app = Flask(__name__)
+APP_ROOT = Path(__file__).resolve().parent
+app = Flask(__name__, template_folder=str(APP_ROOT / "templates"))
 
 @app.route('/', methods=['GET'])
 def index():
