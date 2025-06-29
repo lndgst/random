@@ -25,4 +25,19 @@ The title font comes from [Google Fonts](https://fonts.google.com/) and uses the
    ```
 
 3. Open your browser at [http://localhost:5000](http://localhost:5000)
-and upload images to receive the generated GIF.
+   and upload images to receive the generated GIF.
+
+## Deploying on Bluehost
+
+1. In cPanel choose **Setup Python App** and create a new application
+   that points to this repository. Pick a Python version and create the
+   virtual environment.
+2. Set `passenger_wsgi.py` as the entry point when prompted for the WSGI
+   file.
+3. After the virtual environment is created, install the dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+4. Restart the application from the cPanel interface. Passenger will use
+   the `application` object defined in `passenger_wsgi.py` to serve the
+   Flask app.
