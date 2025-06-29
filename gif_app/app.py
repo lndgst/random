@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, send_file, make_response
 from PIL import Image
 import uuid
 
-DEFAULT_DIMENSION = 800
+DEFAULT_DIMENSION = 600
 DEFAULT_MAX_MB = 4
 
 app = Flask(__name__)
