@@ -26,3 +26,18 @@ The title font comes from [Google Fonts](https://fonts.google.com/) and uses the
 
 3. Open your browser at [http://localhost:5000](http://localhost:5000)
 and upload images to receive the generated GIF.
+
+## Packaging for macOS
+
+To create a standalone macOS application you can use [PyInstaller](https://www.pyinstaller.org/).
+
+1. Install PyInstaller:
+   ```bash
+   pip install pyinstaller
+   ```
+2. Run the provided script:
+   ```bash
+   ./build_macos.sh
+   ```
+
+The resulting `.app` bundle will be placed in the `dist/` directory. Run these steps on a Mac machine with Python installed.
