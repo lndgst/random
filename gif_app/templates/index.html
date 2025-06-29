@@ -30,44 +30,42 @@
                 <div id="uploadCounter" class="mt-1 text-gray-500"></div>
             </div>
             <div>
-                <h2 class="font-bold mb-1">&#9313; Customize</h2>
+                <h2 class="font-bold mb-1">&#9313; Generate</h2>
                 <p class="mb-2 text-gray-500">Adjust the following parameters to get what you want. Change them again, and generate again till you are happy.</p>
-                <div class="mt-1">
-                    <div id="durationLabel" class="mb-1">Duration: <span id="durationValue">300</span> ms</div>
-                    <input id="durationInput" type="range" min="50" max="1000" step="50" value="300" class="w-40">
-                </div>
-                <div class="mt-1">
-                    <div id="dimensionLabel" class="mb-1">Dimension: <span id="dimensionValue">800</span> px</div>
-                    <input id="dimensionInput" type="range" min="200" max="1000" step="50" value="800" class="w-40">
-                </div>
-                <div class="mt-1">
-                    <div id="sizeLabel" class="mb-1">Max size: <span id="sizeValue">4</span> MB</div>
-                    <input id="sizeInput" type="range" min="1" max="10" step="1" value="4" class="w-40">
-                </div>
-            </div>
-            <div>
-                <h2 class="font-bold mb-1">&#9314; Generate</h2>
-                <p class="mb-2 text-gray-500">Press this button to create a GIF</p>
-                <button id="generateBtn" class="p-2 bg-black text-white hover:bg-gray-800 opacity-50 pointer-events-none rounded-lg inline-flex items-center space-x-2" type="submit" disabled>
+                <button id="generateBtn" class="p-2 bg-black text-white hover:bg-gray-800 opacity-50 pointer-events-none rounded-lg inline-flex items-center space-x-2 mt-2" type="submit" disabled>
                     <i data-lucide="wand-2" class="h-4 w-4"></i>
                     <span>Generate</span>
-                </button>
-                <button id="clearBtn" class="p-2 bg-black text-white hover:bg-gray-800 opacity-50 pointer-events-none rounded-lg inline-flex items-center space-x-2 ml-2" type="button" disabled>
-                    <i data-lucide="trash-2" class="h-4 w-4"></i>
-                    <span>Clear</span>
                 </button>
                 <div id="gifPlaceholder" class="mt-4 hidden flex items-center justify-center bg-gray-200">
                     <i data-lucide="loader" class="animate-spin h-8 w-8"></i>
                 </div>
                 <img id="gifPreview" class="mt-4 hidden" alt="Generated GIF">
+                <div id="sliders" class="mt-4 hidden">
+                    <div class="mt-1">
+                        <div id="durationLabel" class="mb-1">Duration: <span id="durationValue">300</span> ms</div>
+                        <input id="durationInput" type="range" min="50" max="1000" step="50" value="300" class="w-40">
+                    </div>
+                    <div class="mt-1">
+                        <div id="dimensionLabel" class="mb-1">Dimension: <span id="dimensionValue">800</span> px</div>
+                        <input id="dimensionInput" type="range" min="200" max="1000" step="50" value="800" class="w-40">
+                    </div>
+                    <div class="mt-1">
+                        <div id="sizeLabel" class="mb-1">Max size: <span id="sizeValue">4</span> MB</div>
+                        <input id="sizeInput" type="range" min="1" max="10" step="1" value="4" class="w-40">
+                    </div>
+                </div>
             </div>
             <div>
-                <h2 class="font-bold mb-1">&#9315; Bring it home</h2>
+                <h2 class="font-bold mb-1">&#9314; Bring it home</h2>
                 <p class="mb-2 text-gray-500">And now you can download it on your computer. Enjoy</p>
                 <a id="downloadBtn" class="p-2 bg-black text-white hover:bg-gray-800 inline-flex opacity-50 pointer-events-none rounded-lg items-center space-x-2" download="output.gif">
                     <i data-lucide="download" class="h-4 w-4"></i>
                     <span>download</span>
                 </a>
+                <button id="clearBtn" class="p-2 bg-black text-white hover:bg-gray-800 opacity-50 pointer-events-none rounded-lg inline-flex items-center space-x-2 ml-2" type="button" disabled>
+                    <i data-lucide="trash-2" class="h-4 w-4"></i>
+                    <span>Clear</span>
+                </button>
             </div>
         </form>
     </div>
@@ -81,6 +79,7 @@
         let currentBlob = null;
         const generateBtn = document.getElementById('generateBtn');
         const clearBtn = document.getElementById('clearBtn');
+        const sliders = document.getElementById('sliders');
         const durationInput = document.getElementById('durationInput');
         const durationValue = document.getElementById('durationValue');
         const dimensionInput = document.getElementById('dimensionInput');
@@ -227,6 +226,7 @@
             updateGenerateBtnState();
             updateUploadCounter();
             updateClearBtnState();
+            sliders.classList.add('hidden');
         });
 
 
@@ -259,6 +259,7 @@
                     gifPreview.classList.remove('hidden');
                     downloadBtn.href = url;
                     downloadBtn.classList.remove('opacity-50', 'pointer-events-none');
+                    sliders.classList.remove('hidden');
                     renderPreviews();
                     updateGenerateBtnState();
                     updateUploadCounter();
