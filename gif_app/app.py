@@ -7,6 +7,15 @@ DEFAULT_MAX_MB = 4
 
 app = Flask(__name__)
 
+
+def store_image(file, target_size):
+    """Load a single uploaded image and resize it before storing."""
+    if not file or not file.filename:
+        return None
+    img = Image.open(file.stream).convert('RGBA')
+    img.thumbnail(target_size, Image.LANCZOS)
+    return img
+
 @app.route('/', methods=['GET'])
 def index():
     return render_template('index.html')
@@ -22,9 +31,8 @@ def generate():
 
     images = []
     for f in files:
-        if f.filename:
-            img = Image.open(f.stream).convert('RGBA')
-            img.thumbnail(target_size, Image.LANCZOS)
+        img = store_image(f, target_size)
+        if img is not None:
             images.append(img)
 
     if not images:
