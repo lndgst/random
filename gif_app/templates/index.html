@@ -56,6 +56,9 @@
                     <i data-lucide="trash-2" class="h-4 w-4"></i>
                     <span>Clear</span>
                 </button>
+                <div id="gifPlaceholder" class="mt-4 hidden flex items-center justify-center bg-gray-200">
+                    <i data-lucide="loader" class="animate-spin h-8 w-8"></i>
+                </div>
                 <img id="gifPreview" class="mt-4 hidden" alt="Generated GIF">
             </div>
             <div>
@@ -73,6 +76,7 @@
         const preview = document.getElementById('preview');
         const gifForm = document.getElementById('gifForm');
         const gifPreview = document.getElementById('gifPreview');
+        const gifPlaceholder = document.getElementById('gifPlaceholder');
         const downloadBtn = document.getElementById('downloadBtn');
         let currentBlob = null;
         const generateBtn = document.getElementById('generateBtn');
@@ -213,6 +217,7 @@
         clearBtn.addEventListener('click', () => {
             gifPreview.src = '';
             gifPreview.classList.add('hidden');
+            gifPlaceholder.classList.add('hidden');
             downloadBtn.removeAttribute('href');
             downloadBtn.classList.add('opacity-50', 'pointer-events-none');
             currentBlob = null;
@@ -228,6 +233,12 @@
         async function generateGif() {
             if (isGenerating || files.length === 0) return;
             isGenerating = true;
+            gifPreview.src = '';
+            gifPreview.classList.add('hidden');
+            gifPlaceholder.style.width = dimensionInput.value + 'px';
+            gifPlaceholder.style.height = dimensionInput.value + 'px';
+            gifPlaceholder.classList.remove('hidden');
+            lucide.createIcons();
             for (const f of files) {
                 const fd = new FormData();
                 fd.append('image', f);
@@ -243,6 +254,7 @@
                 .then(blob => {
                     currentBlob = blob;
                     const url = URL.createObjectURL(blob);
+                    gifPlaceholder.classList.add('hidden');
                     gifPreview.src = url;
                     gifPreview.classList.remove('hidden');
                     downloadBtn.href = url;
@@ -254,6 +266,7 @@
                 })
                 .finally(() => {
                     isGenerating = false;
+                    gifPlaceholder.classList.add('hidden');
                 });
         }
         lucide.createIcons();
