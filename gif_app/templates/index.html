@@ -84,7 +84,6 @@
         const sizeInput = document.getElementById('sizeInput');
         const sizeValue = document.getElementById('sizeValue');
         const uploadCounter = document.getElementById('uploadCounter');
-        const MAX_UPLOAD_MB = 4;
         let files = [];
         let isGenerating = false;
         updateGenerateBtnState();
@@ -127,14 +126,8 @@
 
         function updateUploadCounter() {
             const totalBytes = files.reduce((acc, f) => acc + f.size, 0);
-            const totalMB = (totalBytes / (1024 * 1024));
-            if (totalBytes >= MAX_UPLOAD_MB * 1024 * 1024) {
-                uploadCounter.textContent = `Limit of ${MAX_UPLOAD_MB} MB reached`;
-                uploadCounter.classList.add('text-red-600');
-            } else {
-                uploadCounter.textContent = `${totalMB.toFixed(2)} / ${MAX_UPLOAD_MB} MB`;
-                uploadCounter.classList.remove('text-red-600');
-            }
+            const totalMB = totalBytes / (1024 * 1024);
+            uploadCounter.textContent = `${totalMB.toFixed(2)} MB`;
         }
 
         function updateGenerateBtnState() {
