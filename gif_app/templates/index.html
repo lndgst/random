@@ -79,7 +79,7 @@
         const gifForm = document.getElementById('gifForm');
         const gifPreview = document.getElementById('gifPreview');
         const gifPlaceholder = document.getElementById('gifPlaceholder');
-        const loadingIcon = document.getElementById('loadingIcon');
+        let loadingIcon = document.getElementById('loadingIcon');
         const downloadBtn = document.getElementById('downloadBtn');
         let currentBlob = null;
         const generateBtn = document.getElementById('generateBtn');
@@ -210,6 +210,7 @@
                 preview.appendChild(wrapper);
             });
             lucide.createIcons();
+            loadingIcon = document.getElementById('loadingIcon');
             updateGenerateBtnState();
             updateUploadCounter();
         }
@@ -244,6 +245,7 @@
             gifPlaceholder.style.height = dimensionInput.value + 'px';
             loadingIcon.classList.remove('hidden');
             lucide.createIcons();
+            loadingIcon = document.getElementById('loadingIcon');
             for (const f of files) {
                 const fd = new FormData();
                 fd.append('image', f);
@@ -275,6 +277,7 @@
                 });
         }
         lucide.createIcons();
+        loadingIcon = document.getElementById('loadingIcon');
     </script>
 </body>
 </html>
