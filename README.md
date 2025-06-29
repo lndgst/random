@@ -6,8 +6,8 @@ the square output via a slider; it defaults to 800&times;800 pixels. A second
 slider lets you pick the maximum file size in megabytes, and the server will
 try to scale the frames to keep the GIF under that limit.
 
-The upload page shows how many megabytes of images you've added and warns when
-you reach the 4&nbsp;MB upload limit.
+The upload page shows how many megabytes of images you've added. Each image is
+uploaded individually to keep requests small and within Vercel's limits.
 
 The HTML template now uses [Tailwind CSS](https://tailwindcss.com/) via CDN to
 provide basic styling and includes icons from

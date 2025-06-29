@@ -84,7 +84,6 @@
         const sizeInput = document.getElementById('sizeInput');
         const sizeValue = document.getElementById('sizeValue');
         const uploadCounter = document.getElementById('uploadCounter');
-        const MAX_UPLOAD_MB = 4;
         let files = [];
         let isGenerating = false;
         updateGenerateBtnState();
@@ -127,14 +126,8 @@
 
         function updateUploadCounter() {
             const totalBytes = files.reduce((acc, f) => acc + f.size, 0);
-            const totalMB = (totalBytes / (1024 * 1024));
-            if (totalBytes >= MAX_UPLOAD_MB * 1024 * 1024) {
-                uploadCounter.textContent = `Limit of ${MAX_UPLOAD_MB} MB reached`;
-                uploadCounter.classList.add('text-red-600');
-            } else {
-                uploadCounter.textContent = `${totalMB.toFixed(2)} / ${MAX_UPLOAD_MB} MB`;
-                uploadCounter.classList.remove('text-red-600');
-            }
+            const totalMB = totalBytes / (1024 * 1024);
+            uploadCounter.textContent = `${totalMB.toFixed(2)} MB`;
         }
 
         function updateGenerateBtnState() {
@@ -223,15 +216,25 @@
             downloadBtn.removeAttribute('href');
             downloadBtn.classList.add('opacity-50', 'pointer-events-none');
             currentBlob = null;
+            files = [];
+            fetch('/clear', { method: 'POST' });
+            renderPreviews();
+            updateGenerateBtnState();
+            updateUploadCounter();
             updateClearBtnState();
         });
 
 
-        function generateGif() {
+        async function generateGif() {
             if (isGenerating || files.length === 0) return;
             isGenerating = true;
+            for (const f of files) {
+                const fd = new FormData();
+                fd.append('image', f);
+                fd.append('dimension', dimensionInput.value);
+                await fetch('/upload', { method: 'POST', body: fd });
+            }
             const formData = new FormData();
-            files.forEach(f => formData.append('images', f));
             formData.append('duration', durationInput.value);
             formData.append('dimension', dimensionInput.value);
             formData.append('max_size', sizeInput.value);
@@ -244,6 +247,10 @@
                     gifPreview.classList.remove('hidden');
                     downloadBtn.href = url;
                     downloadBtn.classList.remove('opacity-50', 'pointer-events-none');
+                    files = [];
+                    renderPreviews();
+                    updateGenerateBtnState();
+                    updateUploadCounter();
                     updateClearBtnState();
                 })
                 .finally(() => {
