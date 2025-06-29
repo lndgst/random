@@ -19,57 +19,57 @@
         <h1 class="text-4xl font-bold mb-4" style="font-family: 'DynaPuff', cursive; color: black;">The Giffer</h1>
         <form id="gifForm" action="/generate" method="post" enctype="multipart/form-data" class="space-y-4">
             <div>
-                <h2 class="font-bold mb-1">&#9312; Upload Images</h2>
+                <h2 class="font-bold mb-1">&#9312; Upload &amp; Generate</h2>
                 <p class="mb-2 text-gray-500">Add a bunch of images from your computer. You can mix different formats. It works with jpg, png, and probably other formats but I haven't tested it yet. Drag and drop to reorder.</p>
                 <div id="preview" class="flex flex-wrap mt-2"></div>
                 <input id="imageInput" class="hidden" type="file" name="images" multiple accept="image/*">
-                <label for="imageInput" id="fileLabel" class="p-2 bg-black text-white hover:bg-gray-800 inline-flex cursor-pointer rounded-lg items-center space-x-2 mt-2">
-                    <i data-lucide="plus-circle" class="h-4 w-4"></i>
-                    <span>Add images</span>
-                </label>
+                <div class="mt-2 flex items-center space-x-2">
+                    <label for="imageInput" id="fileLabel" class="p-2 bg-black text-white hover:bg-gray-800 inline-flex cursor-pointer rounded-lg items-center space-x-2">
+                        <i data-lucide="plus-circle" class="h-4 w-4"></i>
+                        <span>Add images</span>
+                    </label>
+                    <button id="generateBtn" class="p-2 bg-black text-white hover:bg-gray-800 opacity-50 pointer-events-none rounded-lg inline-flex items-center space-x-2" type="submit" disabled>
+                        <i data-lucide="wand-2" class="h-4 w-4"></i>
+                        <span>Generate</span>
+                    </button>
+                </div>
                 <div id="uploadCounter" class="mt-1 text-gray-500"></div>
             </div>
             <div>
                 <h2 class="font-bold mb-1">&#9313; Customize</h2>
                 <p class="mb-2 text-gray-500">Adjust the following parameters to get what you want. Change them again, and generate again till you are happy.</p>
-                <div class="mt-1">
-                    <div id="durationLabel" class="mb-1">Duration: <span id="durationValue">300</span> ms</div>
-                    <input id="durationInput" type="range" min="50" max="1000" step="50" value="300" class="w-40">
-                </div>
-                <div class="mt-1">
-                    <div id="dimensionLabel" class="mb-1">Dimension: <span id="dimensionValue">800</span> px</div>
-                    <input id="dimensionInput" type="range" min="200" max="1000" step="50" value="800" class="w-40">
-                </div>
-                <div class="mt-1">
-                    <div id="sizeLabel" class="mb-1">Max size: <span id="sizeValue">4</span> MB</div>
-                    <input id="sizeInput" type="range" min="1" max="10" step="1" value="4" class="w-40">
-                </div>
-            </div>
-            <div>
-                <h2 class="font-bold mb-1">&#9314; Generate</h2>
-                <p class="mb-2 text-gray-500">Press this button to create a GIF</p>
                 <div id="gifPlaceholder" class="mt-2 flex items-center justify-center bg-gray-200" style="width: 800px; height: 800px;">
                     <i id="loadingIcon" data-lucide="loader" class="animate-spin h-8 w-8 hidden"></i>
                     <img id="gifPreview" class="hidden object-contain w-full h-full" alt="Generated GIF">
                 </div>
                 <div class="mt-2">
-                    <button id="generateBtn" class="p-2 bg-black text-white hover:bg-gray-800 opacity-50 pointer-events-none rounded-lg inline-flex items-center space-x-2" type="submit" disabled>
-                        <i data-lucide="wand-2" class="h-4 w-4"></i>
-                        <span>Generate</span>
-                    </button>
-                    <button id="clearBtn" class="p-2 bg-black text-white hover:bg-gray-800 opacity-50 pointer-events-none rounded-lg inline-flex items-center space-x-2 ml-2" type="button" disabled>
-                        <i data-lucide="trash-2" class="h-4 w-4"></i>
-                        <span>Clear</span>
-                    </button>
+                    <div class="mt-1">
+                        <div id="durationLabel" class="mb-1">Duration: <span id="durationValue">300</span> ms</div>
+                        <input id="durationInput" type="range" min="50" max="1000" step="50" value="300" class="w-40">
+                    </div>
+                    <div class="mt-1">
+                        <div id="dimensionLabel" class="mb-1">Dimension: <span id="dimensionValue">800</span> px</div>
+                        <input id="dimensionInput" type="range" min="200" max="1000" step="50" value="800" class="w-40">
+                    </div>
+                    <div class="mt-1">
+                        <div id="sizeLabel" class="mb-1">Max size: <span id="sizeValue">4</span> MB</div>
+                        <input id="sizeInput" type="range" min="1" max="10" step="1" value="4" class="w-40">
+                    </div>
                 </div>
             </div>
             <div>
                 <h2 class="font-bold mb-1">&#9315; Bring it home</h2>
                 <p class="mb-2 text-gray-500">And now you can download it on your computer. Enjoy</p>
-                <a id="downloadBtn" class="p-2 bg-black text-white hover:bg-gray-800 inline-flex opacity-50 pointer-events-none rounded-lg items-center space-x-2" download="output.gif">
-                    <i data-lucide="download" class="h-4 w-4"></i>
-                    <span>download</span>
-                </a>
+                <div class="flex items-center space-x-2">
+                    <a id="downloadBtn" class="p-2 bg-black text-white hover:bg-gray-800 inline-flex opacity-50 pointer-events-none rounded-lg items-center space-x-2" download="output.gif">
+                        <i data-lucide="download" class="h-4 w-4"></i>
+                        <span>download</span>
+                    </a>
+                    <button id="clearBtn" class="p-2 bg-black text-white hover:bg-gray-800 opacity-50 pointer-events-none rounded-lg inline-flex items-center space-x-2" type="button" disabled>
+                        <i data-lucide="trash-2" class="h-4 w-4"></i>
+                        <span>Clear</span>
+                    </button>
+                </div>
             </div>
         </form>
     </div>
