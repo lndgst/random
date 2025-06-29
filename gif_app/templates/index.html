@@ -216,15 +216,25 @@
             downloadBtn.removeAttribute('href');
             downloadBtn.classList.add('opacity-50', 'pointer-events-none');
             currentBlob = null;
+            files = [];
+            fetch('/clear', { method: 'POST' });
+            renderPreviews();
+            updateGenerateBtnState();
+            updateUploadCounter();
             updateClearBtnState();
         });
 
 
-        function generateGif() {
+        async function generateGif() {
             if (isGenerating || files.length === 0) return;
             isGenerating = true;
+            for (const f of files) {
+                const fd = new FormData();
+                fd.append('image', f);
+                fd.append('dimension', dimensionInput.value);
+                await fetch('/upload', { method: 'POST', body: fd });
+            }
             const formData = new FormData();
-            files.forEach(f => formData.append('images', f));
             formData.append('duration', durationInput.value);
             formData.append('dimension', dimensionInput.value);
             formData.append('max_size', sizeInput.value);
@@ -237,6 +247,10 @@
                     gifPreview.classList.remove('hidden');
                     downloadBtn.href = url;
                     downloadBtn.classList.remove('opacity-50', 'pointer-events-none');
+                    files = [];
+                    renderPreviews();
+                    updateGenerateBtnState();
+                    updateUploadCounter();
                     updateClearBtnState();
                 })
                 .finally(() => {

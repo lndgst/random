@@ -1,11 +1,23 @@
 from io import BytesIO
-from flask import Flask, render_template, request, send_file
+from flask import Flask, render_template, request, send_file, make_response
 from PIL import Image
+import uuid
 
 DEFAULT_DIMENSION = 800
 DEFAULT_MAX_MB = 4
 
 app = Flask(__name__)
+
+# Store uploaded images in memory keyed by a session id
+UPLOAD_STORE = {}
+
+
+def get_sid():
+    """Return a session id from the cookie or generate a new one."""
+    sid = request.cookies.get('sid')
+    if not sid:
+        sid = str(uuid.uuid4())
+    return sid
 
 
 def store_image(file, target_size):
@@ -18,22 +30,42 @@ def store_image(file, target_size):
 
 @app.route('/', methods=['GET'])
 def index():
-    return render_template('index.html')
+    """Render the main page and ensure a session cookie exists."""
+    sid = get_sid()
+    resp = make_response(render_template('index.html'))
+    if 'sid' not in request.cookies:
+        resp.set_cookie('sid', sid)
+    return resp
+
+
+@app.route('/upload', methods=['POST'])
+def upload():
+    """Accept a single image and store it in memory for the session."""
+    sid = get_sid()
+    dimension = int(request.form.get('dimension', DEFAULT_DIMENSION))
+    img = store_image(request.files.get('image'), (dimension, dimension))
+    if img is None:
+        return 'No image uploaded', 400
+    UPLOAD_STORE.setdefault(sid, []).append(img)
+    return ('', 204)
+
+
+@app.route('/clear', methods=['POST'])
+def clear():
+    """Remove all stored images for the current session."""
+    sid = get_sid()
+    UPLOAD_STORE.pop(sid, None)
+    return ('', 204)
 
 @app.route('/generate', methods=['POST'])
 def generate():
-    files = request.files.getlist('images')
+    sid = get_sid()
+    images = UPLOAD_STORE.pop(sid, [])
     duration = int(request.form.get('duration', 300))
     dimension = int(request.form.get('dimension', DEFAULT_DIMENSION))
     max_mb = int(request.form.get('max_size', DEFAULT_MAX_MB))
     max_bytes = max_mb * 1024 * 1024
     target_size = (dimension, dimension)
-
-    images = []
-    for f in files:
-        img = store_image(f, target_size)
-        if img is not None:
-            images.append(img)
 
     if not images:
         return 'No images uploaded', 400
