@@ -21,12 +21,12 @@
             <div>
                 <h2 class="font-bold mb-1">&#9312; Upload Images</h2>
                 <p class="mb-2 text-gray-500">Add a bunch of images from your computer. You can mix different formats. It works with jpg, png, and probably other formats but I haven't tested it yet. Drag and drop to reorder.</p>
+                <div id="preview" class="flex flex-wrap mt-2"></div>
                 <input id="imageInput" class="hidden" type="file" name="images" multiple accept="image/*">
-                <label for="imageInput" id="fileLabel" class="p-2 bg-black text-white hover:bg-gray-800 inline-flex cursor-pointer rounded-lg items-center space-x-2">
+                <label for="imageInput" id="fileLabel" class="p-2 bg-black text-white hover:bg-gray-800 inline-flex cursor-pointer rounded-lg items-center space-x-2 mt-2">
                     <i data-lucide="plus-circle" class="h-4 w-4"></i>
                     <span>Add images</span>
                 </label>
-                <div id="preview" class="flex flex-wrap mt-2"></div>
                 <div id="uploadCounter" class="mt-1 text-gray-500"></div>
             </div>
             <div>
@@ -48,18 +48,20 @@
             <div>
                 <h2 class="font-bold mb-1">&#9314; Generate</h2>
                 <p class="mb-2 text-gray-500">Press this button to create a GIF</p>
-                <button id="generateBtn" class="p-2 bg-black text-white hover:bg-gray-800 opacity-50 pointer-events-none rounded-lg inline-flex items-center space-x-2" type="submit" disabled>
-                    <i data-lucide="wand-2" class="h-4 w-4"></i>
-                    <span>Generate</span>
-                </button>
-                <button id="clearBtn" class="p-2 bg-black text-white hover:bg-gray-800 opacity-50 pointer-events-none rounded-lg inline-flex items-center space-x-2 ml-2" type="button" disabled>
-                    <i data-lucide="trash-2" class="h-4 w-4"></i>
-                    <span>Clear</span>
-                </button>
-                <div id="gifPlaceholder" class="mt-4 hidden flex items-center justify-center bg-gray-200">
-                    <i data-lucide="loader" class="animate-spin h-8 w-8"></i>
+                <div id="gifPlaceholder" class="mt-2 flex items-center justify-center bg-gray-200" style="width: 800px; height: 800px;">
+                    <i id="loadingIcon" data-lucide="loader" class="animate-spin h-8 w-8 hidden"></i>
+                    <img id="gifPreview" class="hidden object-contain w-full h-full" alt="Generated GIF">
                 </div>
-                <img id="gifPreview" class="mt-4 hidden" alt="Generated GIF">
+                <div class="mt-2">
+                    <button id="generateBtn" class="p-2 bg-black text-white hover:bg-gray-800 opacity-50 pointer-events-none rounded-lg inline-flex items-center space-x-2" type="submit" disabled>
+                        <i data-lucide="wand-2" class="h-4 w-4"></i>
+                        <span>Generate</span>
+                    </button>
+                    <button id="clearBtn" class="p-2 bg-black text-white hover:bg-gray-800 opacity-50 pointer-events-none rounded-lg inline-flex items-center space-x-2 ml-2" type="button" disabled>
+                        <i data-lucide="trash-2" class="h-4 w-4"></i>
+                        <span>Clear</span>
+                    </button>
+                </div>
             </div>
             <div>
                 <h2 class="font-bold mb-1">&#9315; Bring it home</h2>
@@ -77,6 +79,7 @@
         const gifForm = document.getElementById('gifForm');
         const gifPreview = document.getElementById('gifPreview');
         const gifPlaceholder = document.getElementById('gifPlaceholder');
+        const loadingIcon = document.getElementById('loadingIcon');
         const downloadBtn = document.getElementById('downloadBtn');
         let currentBlob = null;
         const generateBtn = document.getElementById('generateBtn');
@@ -122,6 +125,8 @@
 
         function updateDimensionDisplay() {
             dimensionValue.textContent = dimensionInput.value;
+            gifPlaceholder.style.width = dimensionInput.value + 'px';
+            gifPlaceholder.style.height = dimensionInput.value + 'px';
         }
 
         function updateSizeDisplay() {
@@ -217,7 +222,7 @@
         clearBtn.addEventListener('click', () => {
             gifPreview.src = '';
             gifPreview.classList.add('hidden');
-            gifPlaceholder.classList.add('hidden');
+            loadingIcon.classList.add('hidden');
             downloadBtn.removeAttribute('href');
             downloadBtn.classList.add('opacity-50', 'pointer-events-none');
             currentBlob = null;
@@ -237,7 +242,7 @@
             gifPreview.classList.add('hidden');
             gifPlaceholder.style.width = dimensionInput.value + 'px';
             gifPlaceholder.style.height = dimensionInput.value + 'px';
-            gifPlaceholder.classList.remove('hidden');
+            loadingIcon.classList.remove('hidden');
             lucide.createIcons();
             for (const f of files) {
                 const fd = new FormData();
@@ -254,7 +259,7 @@
                 .then(blob => {
                     currentBlob = blob;
                     const url = URL.createObjectURL(blob);
-                    gifPlaceholder.classList.add('hidden');
+                    loadingIcon.classList.add('hidden');
                     gifPreview.src = url;
                     gifPreview.classList.remove('hidden');
                     downloadBtn.href = url;
@@ -266,7 +271,7 @@
                 })
                 .finally(() => {
                     isGenerating = false;
-                    gifPlaceholder.classList.add('hidden');
+                    loadingIcon.classList.add('hidden');
                 });
         }
         lucide.createIcons();
