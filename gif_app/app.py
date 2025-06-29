@@ -60,7 +60,7 @@ def clear():
 @app.route('/generate', methods=['POST'])
 def generate():
     sid = get_sid()
-    images = UPLOAD_STORE.pop(sid, [])
+    images = UPLOAD_STORE.get(sid, [])
     duration = int(request.form.get('duration', 300))
     dimension = int(request.form.get('dimension', DEFAULT_DIMENSION))
     max_mb = int(request.form.get('max_size', DEFAULT_MAX_MB))
