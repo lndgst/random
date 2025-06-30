@@ -199,6 +199,9 @@
         });
 
         clearBtn.addEventListener('click', () => {
+            if (gifPreview.src) {
+                URL.revokeObjectURL(gifPreview.src);
+            }
             gifPreview.src = '';
             gifPreview.classList.add('hidden');
             downloadBtn.removeAttribute('href');
@@ -221,6 +224,9 @@
                 .then(blob => {
                     currentBlob = blob;
                     const url = URL.createObjectURL(blob);
+                    if (gifPreview.src) {
+                        URL.revokeObjectURL(gifPreview.src);
+                    }
                     gifPreview.src = url;
                     gifPreview.classList.remove('hidden');
                     downloadBtn.href = url;
