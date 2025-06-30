@@ -17,6 +17,7 @@ def generate():
     duration = int(request.form.get('duration', 300))
     dimension = int(request.form.get('dimension', DEFAULT_DIMENSION))
     max_mb = int(request.form.get('max_size', DEFAULT_MAX_MB))
+    square_mask = request.form.get('square_mask') == 'on'
     max_bytes = max_mb * 1024 * 1024
     target_size = (dimension, dimension)
 
@@ -24,6 +25,12 @@ def generate():
     for f in files:
         if f.filename:
             img = Image.open(f.stream).convert('RGBA')
+            if square_mask:
+                w, h = img.size
+                side = min(w, h)
+                left = (w - side) // 2
+                top = (h - side) // 2
+                img = img.crop((left, top, left + side, top + side))
             img.thumbnail(target_size, Image.LANCZOS)
             images.append(img)
 

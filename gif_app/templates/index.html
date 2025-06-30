@@ -43,6 +43,10 @@
                     <div id="sizeLabel" class="mb-1">Max size: <span id="sizeValue">4</span> MB</div>
                     <input id="sizeInput" type="range" min="1" max="10" step="1" value="4" class="w-40">
                 </div>
+                <div class="mt-1 flex items-center space-x-2">
+                    <input id="maskInput" type="checkbox" class="h-4 w-4">
+                    <label for="maskInput">Square crop images</label>
+                </div>
             </div>
             <div>
                 <h2 class="font-bold mb-1">&#9314; Generate</h2>
@@ -82,6 +86,7 @@
         const dimensionValue = document.getElementById('dimensionValue');
         const sizeInput = document.getElementById('sizeInput');
         const sizeValue = document.getElementById('sizeValue');
+        const maskInput = document.getElementById('maskInput');
         let files = [];
         let isGenerating = false;
         updateGenerateBtnState();
@@ -104,6 +109,11 @@
         });
         sizeInput.addEventListener('input', () => {
             updateSizeDisplay();
+            if (gifPreview.src) {
+                generateGif();
+            }
+        });
+        maskInput.addEventListener('change', () => {
             if (gifPreview.src) {
                 generateGif();
             }
@@ -216,6 +226,7 @@
             formData.append('duration', durationInput.value);
             formData.append('dimension', dimensionInput.value);
             formData.append('max_size', sizeInput.value);
+            formData.append('square_mask', maskInput.checked ? 'on' : '');
             fetch('/generate', { method: 'POST', body: formData })
                 .then(res => res.blob())
                 .then(blob => {
