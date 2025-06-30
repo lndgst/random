@@ -246,6 +246,7 @@
             loadingIcon.classList.remove('hidden');
             lucide.createIcons();
             loadingIcon = document.getElementById('loadingIcon');
+            await fetch('/clear', { method: 'POST' });
             for (const f of files) {
                 const fd = new FormData();
                 fd.append('image', f);
