@@ -38,23 +38,23 @@
             <div>
                 <h2 class="font-bold mb-1">&#9313; Preview &amp; Customize</h2>
                 <p class="mb-2 text-gray-500">Take a look, and change these parameters to get what you want. Don't worry, the gray square won't be in the final download; it will be a transparent background.</p>
-                <div id="gifPlaceholder" class="mt-2 flex items-center justify-center bg-gray-200" style="width: 600px; height: 600px;">
-                    <i id="loadingIcon" data-lucide="loader" class="animate-spin h-8 w-8 hidden"></i>
-                    <img id="gifPreview" class="hidden object-contain w-full h-full" alt="Generated GIF">
-                </div>
-                <div class="mt-2">
-                    <div class="mt-1">
+                <div class="mt-2 flex space-x-4">
+                    <div>
                         <div id="durationLabel" class="mb-1">Duration: <span id="durationValue">300</span> ms</div>
                         <input id="durationInput" type="range" min="50" max="1000" step="50" value="300" class="w-40">
                     </div>
-                    <div class="mt-1">
+                    <div>
                         <div id="dimensionLabel" class="mb-1">Dimension: <span id="dimensionValue">600</span> px</div>
                         <input id="dimensionInput" type="range" min="200" max="1000" step="50" value="600" class="w-40">
                     </div>
-                    <div class="mt-1">
+                    <div>
                         <div id="sizeLabel" class="mb-1">Max size: <span id="sizeValue">4</span> MB</div>
                         <input id="sizeInput" type="range" min="1" max="10" step="1" value="4" class="w-40">
                     </div>
+                </div>
+                <div id="gifPlaceholder" class="mt-2 flex items-center justify-center bg-gray-200" style="width: 600px; height: 600px;">
+                    <i id="loadingIcon" data-lucide="loader" class="animate-spin h-8 w-8 hidden"></i>
+                    <img id="gifPreview" class="hidden object-contain w-full h-full" alt="Generated GIF">
                 </div>
             </div>
             <div>
