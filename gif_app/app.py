@@ -64,6 +64,7 @@ def generate():
     duration = int(request.form.get('duration', 300))
     dimension = int(request.form.get('dimension', DEFAULT_DIMENSION))
     max_mb = int(request.form.get('max_size', DEFAULT_MAX_MB))
+    cover = request.form.get('cover', '0') == '1'
     max_bytes = max_mb * 1024 * 1024
     target_size = (dimension, dimension)
 
@@ -78,9 +79,18 @@ def generate():
         for img in images:
             frame = Image.new('RGBA', size, (255, 255, 255, 0))
             temp = img.copy()
-            temp.thumbnail(size, Image.LANCZOS)
-            frame.paste(temp, ((size[0] - temp.width) // 2,
-                              (size[1] - temp.height) // 2))
+            if cover:
+                ratio = max(size[0] / temp.width, size[1] / temp.height)
+                new_size = (int(temp.width * ratio), int(temp.height * ratio))
+                temp = temp.resize(new_size, Image.LANCZOS)
+                left = (temp.width - size[0]) // 2
+                top = (temp.height - size[1]) // 2
+                temp = temp.crop((left, top, left + size[0], top + size[1]))
+                frame.paste(temp, (0, 0))
+            else:
+                temp.thumbnail(size, Image.LANCZOS)
+                frame.paste(temp, ((size[0] - temp.width) // 2,
+                                  (size[1] - temp.height) // 2))
             frames.append(frame)
         gif_bytes.seek(0)
         gif_bytes.truncate()
